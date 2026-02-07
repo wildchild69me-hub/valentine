@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Amaka, Will You Be My Valentine?</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: Arial, sans-serif;
+      background-color: #ffe6f0;
+      padding-top: 100px;
+    }
+    h1 {
+      color: #ff1a75;
+    }
+    button {
+      padding: 15px 30px;
+      font-size: 24px;
+      margin: 20px;
+      background-color: #ff4da6;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    button:hover {
+      transform: scale(1.1);
+      background-color: #ff1a75;
+    }
+  </style>
+</head>
+<body>
+  <h1>💖 Amaka, Will You Be My Valentine? 💖</h1>
+  <button onclick="yesResponse()">Yes 💕</button>
+  <button onclick="noResponse()">No 😢</button>
+
+  <script>
+    const noReplies = [
+      "Oh no 😭… Yemi is heartbroken!",
+      "Omo! Are you serious? 😅",
+      "I see… tough luck for Yemi 💔",
+      "No? But I baked imaginary cookies for you! 🍪",
+      "You’ll regret this, Amaka! 😎"
+    ];
+
+    function yesResponse() {
+      alert("Yay! 💖 I knew you’d say yes, Amaka! -Yemi 💕");
+    }
+
+    function noResponse() {
+      const randomIndex = Math.floor(Math.random() * noReplies.length);
+      alert(noReplies[randomIndex]);
+    }
+  </script>
+</body>
+</html>
