@@ -8,7 +8,8 @@
       text-align: center;
       font-family: Arial, sans-serif;
       background-color: #ffe6f0;
-      padding-top: 100px;
+      padding-top: 50px;
+      overflow-x: hidden;
     }
     h1 {
       color: #ff1a75;
@@ -28,6 +29,26 @@
       transform: scale(1.1);
       background-color: #ff1a75;
     }
+    #reaction {
+      margin-top: 40px;
+      font-size: 24px;
+    }
+    .heart {
+      position: absolute;
+      color: red;
+      font-size: 30px;
+      animation: floatUp 2s ease-out forwards;
+    }
+    @keyframes floatUp {
+      0% {opacity: 1; transform: translateY(0);}
+      100% {opacity: 0; transform: translateY(-200px);}
+    }
+    img.meme {
+      max-width: 200px;
+      margin: 10px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #888;
+    }
   </style>
 </head>
 <body>
@@ -35,22 +56,37 @@
   <button onclick="yesResponse()">Yes 💕</button>
   <button onclick="noResponse()">No 😢</button>
 
+  <div id="reaction"></div>
+
   <script>
     const noReplies = [
-      "Oh no 😭… Yemi is heartbroken!",
-      "Omo! Are you serious? 😅",
-      "I see… tough luck for Yemi 💔",
-      "No? But I baked imaginary cookies for you! 🍪",
-      "You’ll regret this, Amaka! 😎"
+      {text: "Oh no 😭… Yemi is heartbroken!", img: "https://i.imgur.com/1Q1ZQ8R.png"},
+      {text: "Omo! Are you serious? 😅", img: "https://i.imgur.com/XbD6d8y.png"},
+      {text: "I see… tough luck for Yemi 💔", img: "https://i.imgur.com/V3VxQmT.png"},
+      {text: "No? But I baked imaginary cookies for you! 🍪", img: "https://i.imgur.com/dJxj5C9.png"},
+      {text: "im so sad! 😭", img: "https://i.imgur.com/Q5wG7bf.png"}
     ];
 
     function yesResponse() {
-      alert("Yay! 💖 I knew you’d say yes, Amaka! -Yemi 💕");
+      const reactionDiv = document.getElementById('reaction');
+      reactionDiv.innerHTML = "<h2>Yay! 💖 I knew you’d say yes, Amaka! From Yemi 💕</h2>";
+
+      // Add floating hearts
+      for(let i=0;i<20;i++){
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.innerText = '❤️';
+        document.body.appendChild(heart);
+        setTimeout(()=>heart.remove(), 2000);
+      }
     }
 
     function noResponse() {
+      const reactionDiv = document.getElementById('reaction');
       const randomIndex = Math.floor(Math.random() * noReplies.length);
-      alert(noReplies[randomIndex]);
+      const reply = noReplies[randomIndex];
+      reactionDiv.innerHTML = `<p>${reply.text}</p><img class="meme" src="${reply.img}" />`;
     }
   </script>
 </body>
