@@ -8,12 +8,17 @@
       text-align: center;
       font-family: Arial, sans-serif;
       background-color: #ffe6f0;
-      padding-top: 50px;
-      overflow-x: hidden;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
     }
+
     h1 {
       color: #ff1a75;
+      margin-top: 50px;
     }
+
     button {
       padding: 15px 30px;
       font-size: 24px;
@@ -23,26 +28,57 @@
       border: none;
       border-radius: 10px;
       cursor: pointer;
-      transition: transform 0.2s;
+      transition: all 0.2s;
+      position: relative;
     }
+
     button:hover {
       transform: scale(1.1);
       background-color: #ff1a75;
     }
+
     #reaction {
-      margin-top: 40px;
+      margin-top: 30px;
       font-size: 24px;
     }
-    .heart {
+
+    .heart, .confetti, .firework {
       position: absolute;
-      color: red;
       font-size: 30px;
+      pointer-events: none;
+    }
+
+    .heart {
+      color: red;
       animation: floatUp 2s ease-out forwards;
     }
+
+    .confetti {
+      animation: confettiFall 3s linear forwards;
+    }
+
+    .firework {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: explode 1s ease-out forwards;
+    }
+
     @keyframes floatUp {
       0% {opacity: 1; transform: translateY(0);}
-      100% {opacity: 0; transform: translateY(-200px);}
+      100% {opacity: 0; transform: translateY(-250px);}
     }
+
+    @keyframes confettiFall {
+      0% {opacity: 1; transform: translateY(0);}
+      100% {opacity: 0; transform: translateY(600px) rotate(360deg);}
+    }
+
+    @keyframes explode {
+      0% {opacity: 1; transform: scale(1);}
+      100% {opacity: 0; transform: scale(4) translateY(-200px);}
+    }
+
     img.meme {
       max-width: 200px;
       margin: 10px;
@@ -53,41 +89,74 @@
 </head>
 <body>
   <h1>💖 Amaka, Will You Be My Valentine? 💖</h1>
-  <button onclick="yesResponse()">Yes 💕</button>
-  <button onclick="noResponse()">No 😢</button>
+  <button id="yesBtn">Yes 💕</button>
+  <button id="noBtn">No 😢</button>
 
   <div id="reaction"></div>
 
   <script>
     const noReplies = [
-      {text: "I know say amaka dey always disappoint but no disappoint me abeg 😭…", img: "https://imageresizer.com/meme-generator/edit/Disappointed-Dog"},
-      {text: "Oh no 😭… Yemi is heartbroken!", img: "https://i.imgur.com/1Q1ZQ8R.png"},
-      {text: "Omo! Are you serious? 😅", img: "https://i.imgur.com/XbD6d8y.png"},
-      {text: "Pretty please 💔", img: "https://i.imgur.com/V3VxQmT.png"},
-      
+      {text: "Oh no 😭… Yemi is heartbroken!", img: "https://raw.githubusercontent.com/YOUR-USERNAME/valentine/main/heartbroken.png"},
+      {text: "Omo! Are you serious? 😅", img: "https://raw.githubusercontent.com/YOUR-USERNAME/valentine/main/funny.png"},
+      {text: "I see… tough luck for Yemi 💔", img: "https://raw.githubusercontent.com/YOUR-USERNAME/valentine/main/sad.png"},
+      {text: "No? But I baked imaginary cookies for you! 🍪", img: "https://raw.githubusercontent.com/YOUR-USERNAME/valentine/main/cookie.png"},
+      {text: "You’ll regret this, Amaka! 😎", img: "https://raw.githubusercontent.com/YOUR-USERNAME/valentine/main/funny2.png"}
     ];
 
-    function yesResponse() {
-      const reactionDiv = document.getElementById('reaction');
+    const yesBtn = document.getElementById('yesBtn');
+    const noBtn = document.getElementById('noBtn');
+    const reactionDiv = document.getElementById('reaction');
+
+    // YES BUTTON ACTION
+    yesBtn.addEventListener('click', () => {
       reactionDiv.innerHTML = "<h2>Yay! 💖 I knew you’d say yes, Amaka! From Yemi 💕</h2>";
 
-      // Add floating hearts
-      for(let i=0;i<20;i++){
+      // floating hearts
+      for(let i=0; i<30; i++){
         const heart = document.createElement('div');
         heart.className = 'heart';
         heart.style.left = Math.random() * window.innerWidth + 'px';
+        heart.style.top = window.innerHeight + 'px';
         heart.innerText = '❤️';
         document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(), 2000);
+        setTimeout(()=>heart.remove(), 2500);
       }
-    }
 
-    function noResponse() {
-      const reactionDiv = document.getElementById('reaction');
+      // fireworks
+      for(let i=0; i<50; i++){
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+        firework.style.left = Math.random() * window.innerWidth + 'px';
+        firework.style.top = Math.random() * window.innerHeight + 'px';
+        firework.style.backgroundColor = `hsl(${Math.random()*360}, 100%, 50%)`;
+        document.body.appendChild(firework);
+        setTimeout(()=>firework.remove(), 1200);
+      }
+
+      // confetti
+      for(let i=0; i<50; i++){
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * window.innerWidth + 'px';
+        confetti.style.top = '-50px';
+        confetti.innerText = '🎉';
+        document.body.appendChild(confetti);
+        setTimeout(()=>confetti.remove(), 3000);
+      }
+    });
+
+    // NO BUTTON ACTION
+    noBtn.addEventListener('click', () => {
+      // Move the button randomly to dodge clicks (fun)
+      noBtn.style.position = 'absolute';
+      noBtn.style.left = Math.random() * (window.innerWidth - noBtn.offsetWidth) + 'px';
+      noBtn.style.top = Math.random() * (window.innerHeight - noBtn.offsetHeight) + 'px';
+
       const randomIndex = Math.floor(Math.random() * noReplies.length);
       const reply = noReplies[randomIndex];
       reactionDiv.innerHTML = `<p>${reply.text}</p><img class="meme" src="${reply.img}" />`;
-    }
+    });
+
   </script>
 </body>
 </html>
